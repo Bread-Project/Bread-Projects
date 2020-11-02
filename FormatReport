@@ -1,0 +1,71 @@
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  // Or DocumentApp or FormApp.
+  ui.createMenu('Create CSV')
+      .addItem('Convert and Send', 'myfunc')
+      .addSeparator()
+  .addToUi();
+}
+
+function myfunc(){
+  var s1 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet2');
+ 
+  var s2 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Report');
+    var values = s2.getRange(1, 1, s2.getLastRow(), s2.getLastColumn()).getValues();
+    s1.clear();
+  var date = new Date();
+  date.setMonth(date.getMonth()-1);
+  var mon = date.getMonth();
+  var dd = Utilities.formatDate(date, 'America/Los_Angeles', 'yyyyMM');
+  
+    s1.appendRow(["ID","Client","Date","Total","KPI"]);
+      for(var i=1;i<=s2.getLastRow()-1;i++){
+      var value = values[i][1];Logger.log(value);
+          var ad  = values[i][1];
+      var imp = values[i][2];
+      var clk	 = values[i][3];
+      var ctr = values[i][4];
+      var cost	 = values[i][5];
+      var ac = values[i][6];
+      var acpm = values[i][7];
+      var acpc = values[i][8];
+      var con = values[i][9];
+      var conr = values[i][10];
+      var cpc = values[i][11];
+        var muv = values[i][12];
+     s1.appendRow(["",ad,dd,clk,"Clicks"]);
+        s1.appendRow(["",ad,dd,acpc,"Avg CPC"]);
+        s1.appendRow(["",ad,dd,con,"Conversion"]);
+        s1.appendRow(["",ad,dd,cpc,"Cost/Conv"]);
+        s1.appendRow(["",ad,dd,"","Search CTR"]);
+        s1.appendRow(["",ad,dd,imp,"Total Imp"]);
+        s1.appendRow(["",ad,dd,cost,"Cost"]);
+        s1.appendRow(["",ad,dd,"","Display CTR"]);
+        s1.appendRow(["",ad,dd,"","FB LinkClicks"]);
+         s1.appendRow(["",ad,dd,"","FB Impressions"]);
+         s1.appendRow(["",ad,dd,"","FB CPC"]);
+         s1.appendRow(["",ad,dd,"","FB Cost"]);
+         s1.appendRow(["",ad,dd,"","FB Likes"]);
+         s1.appendRow(["",ad,dd,"","FB CPL"]);
+        s1.appendRow(["",ad,dd,"","Display Clicks"]);
+         s1.appendRow(["",ad,dd,vlookup(ad),"MUV"]);
+         
+        
+      }
+    
+    }
+function vlookup(value) {
+  var sheet = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1ZG84HgNR3HUVXU4boXe0x3mkqlJCZBdSuNH_9-6VVbc/edit#gid=0").getSheetByName("Central Sheet");
+  var index = 1;
+  var lastRow=sheet.getLastRow();
+  var column = 1;
+  var data=sheet.getRange(1,column,lastRow,column+index).getValues();
+
+  for(i=0;i<data.length;++i){
+    if (data[i][0]==value){
+      Logger.log(data[i][index]);
+      return data[i][index];
+      
+    }
+  }
+}
