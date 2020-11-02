@@ -3,10 +3,10 @@ import pandas as pd
 from datetime import datetime
 import numpy as np
 mydb = mysql.connector.connect(
-  host="breadprojectsite.com",
-  user="breadpro_feroz",
-  password="creativelife123!",
-  database="breadpro_clients"
+  host="",
+  user="",
+  password="",
+  database=""
 )
 mycursor = mydb.cursor()
 
